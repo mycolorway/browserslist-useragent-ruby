@@ -14,7 +14,7 @@ module BrowserslistUseragent
     def call
       agent = UserAgentParser.parse(user_agent_string)
 
-      family = agent.family
+      family = agent.family.gsub(' ', '_')
       version = VersionNormalizer.new(agent.version.to_s).call
 
       # Case A: For Safari, Chrome and others browsers
