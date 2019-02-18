@@ -7,12 +7,16 @@ module BrowserslistUseragent
   class Resolver
     attr_reader :user_agent_string
 
+    def self.parser
+      @parser ||= UserAgentParser::Parser.new
+    end
+
     def initialize(user_agent_string)
       @user_agent_string = user_agent_string
     end
 
     def call
-      agent = UserAgentParser.parse(user_agent_string)
+      agent = self.class.parser.parse(user_agent_string)
 
       family = agent.family.gsub(' ', '_')
       version = VersionNormalizer.new(agent.version.to_s).call
